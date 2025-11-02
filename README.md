@@ -413,7 +413,10 @@ The **Liyveo Prototype Architecture** is designed as a modular, AI-first system 
     └────────────────────────────────────────────────────────┘
 
 ```
+## Vision Statement
 
+> **“Liyveo redefines how humans discover and connect with products —  
+> not through clicks or menus, but through conversation, voice, and vision.”**
 
 
 

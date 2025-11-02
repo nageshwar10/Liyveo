@@ -194,13 +194,13 @@ Voice Output: TTS converts text response to speech.
 Frontend Display: Web / WhatsApp shows product cards + audio reply.
 ```
 
-# 🧱 AI Tech Stack Summary
+## AI Tech Stack Summary
 
 The **Liyveo Platform** is built on a modular, cloud-native AI stack — combining LLMs, vision models, and scalable infrastructure for real-time multimodal retail intelligence.
 
 ---
 
-### ⚙️ Technology Overview
+###  Technology Overview
 
 | **Layer**            | **Technology**                                  |
 | --------------------- | ----------------------------------------------- |
@@ -301,13 +301,13 @@ The **Liyveo Prototype Stack** brings together speech, vision, and recommendatio
 
 ---
 
-# 🧩 Liyveo AI Components — Core Services & Communication
+##  Liyveo AI Components — Core Services & Communication
 
 Liyveo’s architecture is composed of modular AI-driven services that work together through lightweight APIs and message passing. Each component handles a specific stage of the multimodal shopping workflow — from catalog ingestion to real-time recommendations.
 
 ---
 
-### ⚙️ Core Service Overview
+###  Core Service Overview
 
 | **Component**               | **Description**                                                                 | **Tech Example**                            |
 | ---------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------- |

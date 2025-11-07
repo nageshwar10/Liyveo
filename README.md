@@ -96,19 +96,25 @@ Interactive web dashboard providing full visibility of your AWS environment.
      ├── AI Chat Console
 
 ```
-##  Liyveo Recommender Engine
+##  Pipeline Example — AI Query Flow
 
-The **Liyveo Recommender Engine** powers intelligent product discovery by combining **semantic** and **visual similarity** search to deliver highly relevant results.
-
+Below shows how Liyveo processes a **voice-based cloud query**, combining AWS data, LLM reasoning, and voice synthesis.
 ```text
-[Liyveo Recommender Engine]
-     ├── Text Embeddings → Titles / Descriptions
-     ├── Image Embeddings → CLIP / Vision Models
-     ├── Combines Semantic + Visual Similarity
-     ├── Returns Product Matches / Complements / Alternatives
+Voice → Whisper (ASR)
+       ↓
+Text → GPT-5 → Intent Detection (“check my EC2 cost”)
+       ↓
+Tool Execution → Cost Explorer API
+       ↓
+Response → GPT-5 → Formatted Summary
+       ↓
+Voice → Polly → Spoken Reply
+       ↓
+Dashboard → Displays Data Visualization
+
 ```
 
-##  Liyveo Voice Engine
+##  Liyveo Modules
 
 The **Liyveo Voice Engine** enables fully voice-driven interactions — converting speech to text and back to natural human-like responses with emotional tone and multilingual support.
 
@@ -122,14 +128,18 @@ The **Liyveo Voice Engine** enables fully voice-driven interactions — converti
 
 ##  Liyveo Vision Engine
 
-The **Liyveo Vision Engine** powers visual understanding in the Liyveo ecosystem — analyzing uploaded or live images to identify styles, colors, and product matches.
+### 1. FinOps Module
+
+Tracks and optimizes AWS spend using Cost Explorer APIs.
 
 ```text
-[Liyveo Vision Engine]
-     ├── Detects Dominant Colors
-     ├── Classifies Fashion Category (Shoes / Shirts / Accessories)
-     ├── Analyzes Texture & Patterns
-     ├── Generates Visual Embeddings → Finds Matching Products
+
+[Liyveo FinOps]
+     ├── Service-wise cost breakdown
+     ├── Forecasting via AI regression
+     ├── Tag-based allocation reports
+     ├── Recommendations (Idle/Underutilized)
+
 ```
 
 ##  Liyveo Insights Engine *(Optional – Future Module)*
@@ -143,228 +153,179 @@ The **Liyveo Insights Engine** turns user interactions into actionable retail in
      ├── Predicts Emerging Trends (Colors / Styles / Categories)
 
 ```
-## Core Database Schema
+### 2. SecOps Module
 
-The **Liyveo Core Database** uses **Postgres** for structured data management — handling products, users, interactions, and recommendation history.
+Analyzes IAM, WAF, and container scans to strengthen compliance posture.
+
 
 ```text
-[Postgres Database]
-     ├── products → Core product metadata
-     ├── users → Registered or guest users
-     ├── interactions → Logs of user actions
-     ├── sessions → Chat + Voice history
-     ├── recommendations → Generated suggestions cache
-```
-##  Sample Database Schema (Postgres)
+[Liyveo SecOps]
+     ├── IAM Analyzer → Detects risky privileges
+     ├── WAF Advisor → Ensures OWASP protection
+     ├── Trivy / BlackDuck Integration → Image scans
+     ├── Security Hub Findings → Unified dashboard
 
-Below is a simplified example of the **`products`** table used in the Liyveo Core Database.  
-It combines metadata with a vector column for **semantic + visual search** integration.
+```
+### 3. CloudOps Module
+
+Visualizes all EKS workloads and cloud resources.
+
+```
+[Liyveo CloudOps]
+     ├── EKS Cluster Map (pods, deployments, services)
+     ├── Node and namespace health
+     ├── Resource utilization and scaling trends
+     ├── Cross-account environment map
+
+```
+
+## Core Database Schema
+
+This section illustrates how **Liyveo** handles a multimodal user query — combining **vision**, **language**, and **voice** to deliver a seamless AI shopping experience.
+```
+[Postgres Database]
+     ├── users → Registered platform users
+     ├── aws_accounts → Client AWS credentials / roles
+     ├── cost_reports → Historical billing data
+     ├── iam_analysis → Over-permissive roles
+     ├── eks_clusters → Cluster and workload metadata
+     ├── security_findings → Vulnerability data
+     ├── chat_logs → AI interaction logs
+```
+---
+
+## Example Table: cost_reports
 
 ```sql
-CREATE TABLE products (
-  id UUID PRIMARY KEY,
-  name TEXT,
-  brand TEXT,
-  price NUMERIC,
-  category TEXT,
-  color TEXT,
-  image_url TEXT,
-  embedding VECTOR(768) -- Stores multimodal embeddings for similarity search
+CREATE TABLE cost_reports (
+  id SERIAL PRIMARY KEY,
+  account_id TEXT,
+  service TEXT,
+  cost NUMERIC,
+  currency TEXT,
+  start_date DATE,
+  end_date DATE,
+  data JSONB
 );
 ```
 
+
 ## AI Workflow (End-to-End)
 
-This section illustrates how **Liyveo** handles a multimodal user query — combining **vision**, **language**, and **voice** to deliver a seamless AI shopping experience.
+Liyveo’s conversational workflow blends voice, reasoning, and automation:
 
----
-
-### Example Flow — *“Image + Voice Query”*
-
-**User:** Uploads an outfit photo and says → *“Find me matching shoes.”*
-
-```text
-Voice → Text: Whisper converts speech to text.
-      ↓
-Intent Recognition: LLM detects request type (“fashion match”).
-      ↓
-Vision Analysis: CLIP extracts outfit style embedding.
-      ↓
-Recommendation Search: Vector DB finds top 3 matches.
-      ↓
-Response Generation: LLM composes natural text + product list.
-      ↓
-Voice Output: TTS converts text response to speech.
-      ↓
-Frontend Display: Web / WhatsApp shows product cards + audio reply.
+```
+User Query: “What’s my IAM risk this week?”
+     ↓
+LLM (GPT-5) → Detects intent (“IAM risk summary”)
+     ↓
+LangChain Tool → Calls IAM Analyzer
+     ↓
+AWS API → Returns role data
+     ↓
+LLM → Formats report
+     ↓
+Response → Shown in dashboard + spoken by voice
 ```
 
-## AI Tech Stack Summary
-
-The **Liyveo Platform** is built on a modular, cloud-native AI stack — combining LLMs, vision models, and scalable infrastructure for real-time multimodal retail intelligence.
-
 ---
 
-###  Technology Overview
+###  AI Tech Stack Summary
 
-| **Layer**            | **Technology**                                  |
-| --------------------- | ----------------------------------------------- |
-| **Framework**         | FastAPI / Node.js                               |
-| **Database**          | PostgreSQL                                      |
-| **Vector DB**         | Faiss / Pinecone / Milvus                       |
-| **Image Embeddings**  | CLIP / BLIP / ViT                               |
-| **Text Embeddings**   | OpenAI / SentenceTransformers                   |
-| **LLM (Chat)**        | GPT-4 / Claude / Llama-3                        |
-| **Speech-to-Text**    | Whisper                                         |
-| **Text-to-Speech**    | Polly / Google / VITS                           |
-| **Frontend**          | React / Next.js / Flutter                       |
-| **Cloud**             | AWS / GCP / Azure                               |
+| **Layer**             | **Technology**                     |
+| --------------------- | ---------------------------------- |
+| **Framework**         | FastAPI (Python 3.11)              |
+| **Database**          | PostgreSQL + Redis                 |
+| **Cloud SDK**         | Boto3 + Kubernetes Python Client   |
+| **AI Model**          | GPT-5 (OpenAI) via LangChain Tools |
+| **Voice Engine**      | Whisper (ASR) + Polly (TTS)        |
+| **Vector Store**      | FAISS (Contextual Retrieval)       |
+| **Containerization**  | Docker + ECS (Dev) / EKS (Prod)    |
+| **Monitoring**        | Prometheus / Grafana               |
+| **Security Scanning** | Trivy / BlackDuck / SonarQube      |
+| **Auth (Future)**     | AWS Cognito / JWT-based            |
 
 ---
 
 ## Architecture Highlights
 
-- **API Layer:**  
-  Built using **FastAPI** (Python) or **Node.js** (TypeScript) for high concurrency and async processing.  
+- **Unified Cloud Intelligence Layer:**  
+  AI + Automation for Cost, Security, and Kubernetes insights.
+  
+- **Voice + Chat Copilot:**  
+  Natural conversational interface for any AWS query.  
 
-- **AI Models:**  
-  Combines **LLMs**, **Vision Models**, and **Speech Models** into a unified multimodal reasoning engine.  
+- **Multi-Account Support:**  
+  Cross-account AWS access via AssumeRole
+  
+- **Extensible Tooling:**  
+  Plug in new scanners, cost optimizers, or AI models.  
 
-- **Vector Search:**  
-  Product embeddings stored and searched in **Faiss**, **Pinecone**, or **Milvus** for sub-second retrieval.  
-
-- **Frontend Frameworks:**  
-  Responsive chat and voice interfaces built with **React**, **Next.js**, and **Flutter** for cross-platform delivery.  
-
-- **Cloud Infrastructure:**  
-  Deployable on **AWS, GCP, or Azure**, using containers and serverless components for scalability.  
-
----
-
-###  Optional Add-ons
-
-- **Monitoring:** Prometheus / Grafana  
-- **Authentication:** Firebase / Auth0 / Cognito  
-- **Caching:** Redis / CloudFront  
-- **Analytics:** BigQuery / Snowflake / Metabase  
+- **DevOps Native:**  
+  Built for containerized environments (ECS/EKS).  
 
 ---
 
-## Developer Integration Points
 
-Liyveo provides a set of **REST API endpoints** for seamless integration with your existing **eCommerce backend**, **apps**, and **frontend channels**.
+### Developer Integration Points
+Liyveo provides REST APIs to access all modules programmatically.
 
----
 
-### Core API Endpoints
-
-| **Endpoint**          | **Description**                                   |
-| ---------------------- | ------------------------------------------------- |
-| `/api/catalog/sync`    | Receives and syncs product data from your backend. |
-| `/api/chat`            | Handles text-based conversational queries.         |
-| `/api/voice`           | Processes voice-based interactions (ASR → LLM → TTS). |
-| `/api/vision`          | Accepts image uploads and performs visual analysis. |
-| `/api/recommend`       | Returns AI-powered product recommendations.        |
-| `/api/user/log`        | Logs and tracks user interactions and activity.    |
+| **Endpoint**                 | **Description**                  |
+| ---------------------------- | -------------------------------- |
+| `/api/chat`                  | AI conversation (text-based)     |
+| `/api/voice`                 | Voice input → AI → voice output  |
+| `/api/aws/cost/usage`        | Fetch AWS cost by date range     |
+| `/api/aws/iam/analyze`       | Detect over-permissive IAM roles |
+| `/api/aws/eks/clusters`      | List and describe EKS workloads  |
+| `/api/aws/security/findings` | Retrieve Security Hub findings   |
+| `/api/report/sync`           | Trigger background sync job      |
 
 ---
 
-###  Typical Integration Flow
+## Deployment
+**ECS (Development)**
 
 ```text
-[Your eCommerce Backend]
-       ↓ (Product Feed / Webhook)
-  /api/catalog/sync → Liyveo Ingest Service
-       ↓
-  /api/chat or /api/voice → Liyveo Conversation Service
-       ↓
-  /api/vision → Liyveo Vision Engine
-       ↓
-  /api/recommend → Liyveo Recommender Engine
-       ↓
-  /api/user/log → Liyveo Insights Engine (for analytics)
+docker build -t liyveo-cloudops .
+docker-compose up
 
 ```
-## AI Stack Summary (Liyveo Prototype)
-
-The **Liyveo Prototype Stack** brings together speech, vision, and recommendation models into one unified multimodal architecture.
-
----
-
-###  Prototype Tech Overview
-
-| **Layer**                  | **Tech**                                      |
-| --------------------------- | --------------------------------------------- |
-| **Voice Input**             | Whisper (ASR)                                 |
-| **Text Understanding**      | GPT-4 / Claude / Llama-3                      |
-| **Image Understanding**     | CLIP / BLIP / ViT                             |
-| **Recommendation Retrieval**| Faiss / Pinecone / Milvus                     |
-| **Data Store**              | PostgreSQL (metadata)                         |
-| **Speech Output**           | Google Cloud TTS / Polly / VITS               |
-| **API Gateway**             | FastAPI / Node.js                             |
-| **Frontend Channels**       | React Web, WhatsApp API, Kiosk Interface      |
-
----
-
-##  Liyveo AI Components — Core Services & Communication
-
-Liyveo’s architecture is composed of modular AI-driven services that work together through lightweight APIs and message passing. Each component handles a specific stage of the multimodal shopping workflow — from catalog ingestion to real-time recommendations.
-
----
-
-###  Core Service Overview
-
-| **Component**               | **Description**                                                                 | **Tech Example**                            |
-| ---------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------- |
-| **Liyveo Ingest Service**    | Syncs product catalog from your website API, extracts embeddings (image + text). | FastAPI + CLIP + Faiss / Milvus             |
-| **Liyveo Conversation Service** | Central conversational intelligence. Handles text, image, and voice messages. | FastAPI + GPT-4 + Whisper + TTS             |
-| **Liyveo Vision Engine**     | Uses AI to analyze uploaded images (style, category, colors) for recommendations. | CLIP / BLIP / ViT                           |
-| **Liyveo Voice Engine**      | Converts voice → text (ASR) and text → voice (TTS).                            | Whisper + Polly / Google TTS                |
-| **Liyveo Recommender**       | Retrieves similar or relevant items via vector search and user history.         | Faiss / Pinecone                            |
-| **Liyveo Interaction Logger**| Tracks user behavior to improve personalization.                               | Postgres / Redis                            |
-
----
-
-##  Component Responsibilities
-
-1. **Ingest Service**  
-   - Pulls product data via REST API or webhook.  
-   - Generates **multimodal embeddings** (image + text).  
-   - Stores data in **Postgres + Vector DB**.  
-
-2. **Conversation Service**  
-   - Acts as the **AI brain** combining **LLM + Vision + Voice**.  
-   - Interprets user intent and orchestrates downstream calls.  
-
-3. **Vision Engine**  
-   - Extracts visual features (color, category, texture).  
-   - Generates embeddings for visual matching.  
-
-4. **Voice Engine**  
-   - Performs **ASR** (speech-to-text) using Whisper.  
-   - Converts AI responses to **speech** (TTS) using Polly, Google, or VITS.  
-
-5. **Recommender Engine**  
-   - Uses **vector search** for “find similar” or “complete the look.”  
-   - Incorporates user preferences and session context.  
-
-6. **Interaction Logger**  
-   - Logs all user actions (searches, clicks, conversions).  
-   - Feeds analytics and personalization models.  
-
----
-
-###  Communication Flow
-
+**EKS (Production)**
 ```text
-[Frontend / API Gateway]
-        ↓
-[Liyveo Conversation Service]
-        ├──→ Vision Engine (for image analysis)
-        ├──→ Voice Engine (for ASR / TTS)
-        ├──→ Recommender (for product search)
-        └──→ Interaction Logger (for analytics)
+kubectl apply -f deploy/liyveo-deployment.yaml
+kubectl apply -f deploy/liyveo-service.yaml
 ```
+
+## Environment Configuration
+
+```
+APP_NAME=Liyveo CloudOps AI
+APP_ENV=production
+AWS_REGION=ap-south-1
+
+POSTGRES_URL=postgresql+psycopg2://user:pass@db:5432/liyveo
+REDIS_URL=redis://redis:6379/0
+
+OPENAI_API_KEY=<your_gpt5_key>
+ENABLE_AI_ASSISTANT=1
+ENABLE_VOICE=1
+```
+
+---
+## Future Roadmap
+
+| **Planned Feature**         | **Description**                                |
+| ---------------------------- | ---------------------------------------------- |
+| **Azure & GCP Support**      | Multi-cloud expansion for cost and security analysis. |
+| **Drift Detection Engine**   | Automatically track and alert on infrastructure drifts. |
+| **Cost Anomaly Detection**   | Machine learning–based monitoring for unexpected cloud spend. |
+| **Security Remediation Bot** | Automated IAM, WAF, and Config rule fix recommendations. |
+| **CI/CD Advisor**            | Continuous integration insights with SonarQube and pipeline analysis. |
+| **AI FinOps Coach**          | Personalized cost optimization and insights powered by GPT-5. |
+
+---
+
 
 ## Liyveo — Prototype Architecture (AI-First System)
 
@@ -373,55 +334,173 @@ The **Liyveo Prototype Architecture** is designed as a modular, AI-first system 
 ---
 
 ```text
-                 ┌───────────────────────────┐
-                 │     Your Website Backend  │
-                 │ (Product API / Webhook)   │
-                 └──────────┬────────────────┘
-                            │
-                            ▼
-                   ┌───────────────────────┐
-                   │ Liyveo Ingest Service │
-                   │  - Fetches products   │
-                   │  - Stores in Postgres │
-                   │  - Creates embeddings │
-                   │  - Syncs to Vector DB │
-                   └──────────┬────────────┘
-                              │
-              ┌───────────────┴────────────────┐
-              │                                │
-┌──────────────────────────────┐   ┌──────────────────────────────┐
-│   Postgres (Core Database)   │   │ Vector DB (Faiss/Milvus etc.)│
-│ - products, users, sessions  │   │ - text & image embeddings    │
-│ - interaction logs           │   │ - semantic recommendations   │
-└──────────────────────────────┘   └──────────────────────────────┘
-              │                                │
-              └───────────────┬────────────────┘
-                              ▼
-                 ┌────────────────────────────┐
-                 │ Liyveo Conversation Service │
-                 │  (Main AI Brain)            │
-                 │────────────────────────────│
-                 │  - ASR: Whisper             │
-                 │  - LLM: GPT / local model   │
-                 │  - Retriever: Vector Search │
-                 │  - TTS: Speech Generation   │
-                 │  - Intent Routing Logic     │
-                 └──────────┬─────────────────┘
-                            │
-                            ▼
-    ┌────────────────────────────────────────────────────────┐
-    │ User Channels                                           │
-    │  - Web Chat Widget (React / Next.js)                    │
-    │  - Mobile App (Flutter / React Native)                  │
-    │  - Smart Kiosk / Tablet (Voice + Camera)                │
-    │  - WhatsApp / Instagram DM (via API Gateway)            │
-    └────────────────────────────────────────────────────────┘
+                 ┌────────────────────────────────────────────┐
+                 │           AWS Account(s)                   │
+                 │  (EC2, S3, IAM, EKS, SecurityHub, Cost)    │
+                 └───────────────┬────────────────────────────┘
+                                 │
+                                 ▼
+                      ┌──────────────────────────┐
+                      │  Liyveo Data Collector   │
+                      │  - Cost Explorer (FinOps)│
+                      │  - IAM Analyzer (SecOps) │
+                      │  - EKS Inspector (Cloud) │
+                      │  - Security Scanner       │
+                      └───────────┬──────────────┘
+                                  │
+                     ┌────────────┴───────────────┐
+                     │                            │
+        ┌──────────────────────────────┐   ┌──────────────────────────────┐
+        │  PostgreSQL (Core Database)  │   │   Redis / Celery (Scheduler)  │
+        │  - cost_reports              │   │   - background sync jobs      │
+        │  - iam_analysis              │   │   - periodic data fetch       │
+        │  - eks_clusters              │   │   - report generation         │
+        │  - security_findings         │   └──────────────────────────────┘
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+              ┌──────────────────────────────┐
+              │  Liyveo AI Core (GPT-5)      │
+              │──────────────────────────────│
+              │  - LangChain Orchestration    │
+              │  - RAG + FAISS Vector Store   │
+              │  - FinOps Toolchain           │
+              │  - SecOps Analyzer            │
+              │  - CloudOps Visual Engine     │
+              │  - Voice Interface (Whisper)  │
+              │  - TTS Engine (Polly / VITS)  │
+              └──────────────┬───────────────┘
+                             │
+                             ▼
+           ┌───────────────────────────────────────────┐
+           │   Liyveo Dashboard + Conversational UI     │
+           │───────────────────────────────────────────│
+           │  - Cost Optimization Dashboard (FinOps)    │
+           │  - IAM Risk Map & Policy Insights          │
+           │  - EKS Cluster Visualization               │
+           │  - Security Advisor (Trivy / SonarQube)    │
+           │  - AI Chat + Voice Assistant               │
+           │  - Reports & Forecasts                     │
+           └───────────────────────────────────────────┘
+                             │
+                             ▼
+           ┌───────────────────────────────────────────┐
+           │   User Channels & Integrations             │
+           │───────────────────────────────────────────│
+           │  - Web Dashboard (React / Next.js)         │
+           │  - CLI & API Access                        │
+           │  - Slack / Teams Bots                      │
+           │  - Voice Console (Smart Speaker UI)        │
+           └───────────────────────────────────────────┘
+
 
 ```
+##  Component Breakdown
+
+---
+
+#### **1. Liyveo Data Collector**
+The ingestion layer that continuously synchronizes cloud data.
+
+- Connects via **AWS SDK (boto3)**  
+- Fetches data from **Cost Explorer**, **IAM**, **EKS**, and **Security Hub**  
+- Normalizes and stores results in **PostgreSQL**  
+- Runs on schedule using **Celery + Redis** for background jobs  
+
+---
+
+#### **2. Liyveo AI Core**
+The reasoning engine — where **GPT-5** and **LangChain** process cloud data, context, and natural queries.
+
+- Uses **RAG (Retrieval-Augmented Generation)** for contextual awareness  
+- Provides **FinOps**, **SecOps**, and **CloudOps** capabilities  
+- Converts **voice → text → LLM → voice** for conversational interaction  
+- Can query multiple AWS accounts using **STS AssumeRole**  
+
+---
+
+#### **3. Liyveo Dashboard**
+An interactive visualization and control center.
+
+- Real-time **cost & usage dashboards**  
+- **EKS topology map** (clusters → deployments → pods)  
+- **IAM risk visualization** and compliance summaries  
+- **Security posture reports** from Security Hub, Trivy, and SonarQube  
+- **AI-powered “Ask Your Cloud”** chat interface  
+
+---
+
+#### **4. Voice & Chat Interface**
+Natural communication layer between the user and the system.
+
+- **Whisper** → speech-to-text (ASR)  
+- **GPT-5 (LLM)** → reasoning and contextual insight  
+- **Polly / VITS** → text-to-speech (TTS) output  
+- Multi-language and **emotion-aware responses**  
+- Integrated into the **web dashboard** and **CLI** for seamless access  
+
+---
+
+#### **5. Background Task Layer**
+Asynchronous engine for scheduled syncs, anomaly alerts, and notifications.
+
+- **Celery workers** fetch cost, IAM, EKS, and security data  
+- **Redis queue** for scalable job orchestration  
+- Automated **FinOps reporting** (daily / weekly)  
+- **Security notifications** delivered via Slack or email
+
+## Cloud Infrastructure
+
+Liyveo is designed to be **fully deployable on AWS**, with a modular architecture that supports both development and production environments.
+
+| **Environment / Service**  | **AWS Component**         | **Purpose**                                          |
+| -------------------------- | ------------------------- | ---------------------------------------------------- |
+| **Dev (ECS)**              | Fargate Tasks             | Runs API and background jobs in development.         |
+| **Prod (EKS)**             | Managed Kubernetes        | Hosts scalable API and Celery workers in production. |
+| **RDS (PostgreSQL)**       | AWS RDS                   | Core relational data storage for all modules.        |
+| **ElastiCache (Redis)**    | AWS ElastiCache           | Provides caching and background job queuing.         |
+| **CloudWatch / Grafana**   | AWS CloudWatch + Grafana  | Monitoring, logging, and performance metrics.        |
+| **ECR**                    | Elastic Container Registry| Secure Docker image storage and versioning.          |
+| **Secrets Manager**        | AWS Secrets Manager       | Secure credentials and API key management.           |
+
+##  Communication Flow
+```
+[User / Dashboard / Voice]
+↓
+[Liyveo AI Core (GPT-5)]
+↓
+[LangChain Tool → AWS SDK]
+↓
+[PostgreSQL + Redis Storage]
+↓
+[Visualization / Report / Voice Output]
+```
+
+**Description:**
+1. **User Input:** Comes from text chat, dashboard interactions, or voice commands.  
+2. **AI Core (GPT-5):** Processes natural language via LangChain with context awareness (RAG).  
+3. **LangChain Tools:** Invoke specific AWS integrations (Cost Explorer, IAM, EKS, Security Hub) through **boto3**.  
+4. **Storage Layer:** Results are normalized and stored in **PostgreSQL** (structured) and **Redis** (cached / queued).  
+5. **Output Layer:** Processed insights are returned as:
+   -  Dashboards or reports (UI)
+   -  Text replies (chat)
+   -  Voice responses (TTS via Polly or VITS)
+
+---
+
+###  Optional: Mermaid Diagram (renders directly in GitHub / Docs)
+
+```mermaid
+flowchart TD
+    A[User / Dashboard / Voice] --> B[Liyveo AI Core (GPT-5)]
+    B --> C[LangChain Tool → AWS SDK]
+    C --> D[(PostgreSQL + Redis Storage)]
+    D --> E[Visualization / Report / Voice Output]
+
 ## Vision Statement
 
-> **“Liyveo redefines how humans discover and connect with products —  
-> not through clicks or menus, but through conversation, voice, and vision.”**
+> **“Liyveo redefines how humans manage the cloud — 
+> not through dashboards and CLI commands, but through conversation, insight, and automation.”**
 
 
 

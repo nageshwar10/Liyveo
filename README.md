@@ -50,47 +50,50 @@ Liyveo unifies data from AWS APIs, Kubernetes, and Security tools, processes the
 
 
 ```
-##  AAI Service Architecture
+##  AI Service Architecture
 
-### Liyveo Ingest Service
+### Liyveo Data & Intelligence Pipeline
 
-The **Liyveo Ingest Service** is responsible for connecting your eCommerce backend with the AI core, preparing all product data for intelligent search and recommendations.
+The **Liyveo Core Engine** continuously ingests, analyzes, and optimizes your AWS environment using AI reasoning and contextual cloud knowledge.
 
 ```text
-[Website Backend / eCommerce API]
+[AWS APIs / Client Credentials]
         │
         ▼
- [Liyveo Ingest Service]
-     ├── Pulls all products via REST API or Webhook
-     ├── Generates image & text embeddings (CLIP / BLIP)
-     ├── Stores data:
-     │      • Metadata → Postgres
-     │      • Embeddings → Vector DB (Faiss / Pinecone / Milvus)
+ [Liyveo Ingestion Engine]
+     ├── Pulls AWS Cost, IAM, EKS, SecurityHub
+     ├── Normalizes JSON and Metrics
+     ├── Stores Metadata → Postgres
+     ├── Enriches Data → RAG + Vector Store (FAISS)
 
 
 ```
-##  Liyveo Conversation Service
+## Liyveo AI Core
 
-The **“brain”** of the Liyveo platform — where **voice, image, and text** come together to enable natural, multimodal shopping experiences.
+The **AI Brain** that powers all cloud insights and conversations.
 
 ```text
-[Liyveo Conversation Service]
-     ├── Text Input → GPT / Llama / Claude → Conversational Response
-     ├── Voice Input → Whisper (ASR) → LLM → TTS → Spoken Reply
-     ├── Image Input → CLIP / BLIP / ViT → Product Matches & Style Suggestions
+[Liyveo AI Core]
+     ├── LLM: GPT-5 (LangChain Orchestration)
+     ├── Cost Intelligence Tool (Cost Explorer API)
+     ├── IAM Analyzer Tool (AWS IAM SDK)
+     ├── EKS Visualizer Tool (Kubernetes API)
+     ├── Security Insights Tool (Security Hub + Trivy)
+     ├── RAG Context Builder (FAISS Vector Store)
+     ├── Voice Interface (Whisper + Polly)
+
 ```
-##  Pipeline Example
+## Liyveo Dashboard Service
 
-Below is an example of how Liyveo processes a **voice-based product discovery** request — combining speech, language, and vector search into one seamless flow.
+Interactive web dashboard providing full visibility of your AWS environment.
 
 ```text
-Voice → Whisper (ASR)
-       ↓
-Text → LLM → Query Intent (“find similar sneakers”)
-       ↓
-Vector Search → Matching Products
-       ↓
-LLM Formats Response → TTS → Audio Output
+[Liyveo Dashboard]
+     ├── Cost Analytics: by Service, Region, Tag
+     ├── IAM Risk Heatmaps
+     ├── EKS Cluster Visualization
+     ├── Security Findings Summary
+     ├── AI Chat Console
 
 ```
 ##  Liyveo Recommender Engine

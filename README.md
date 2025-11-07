@@ -1,54 +1,56 @@
-#  Liyveo — AI Conversational Commerce Platform
-### “ Your Personal AI for Everything You See, Say, and Shop.”
+#  Liyveo — AI CloudOps, FinOps & SecOps Platform
+### “ Your Personal AI for Everything You Deploy, Secure, and Optimize.”
 
-Liyveo is an AI-powered conversational assistant designed to bridge the gap between human expression and digital discovery.
-It enables users to talk, show, or type to discover products, get recommendations, and interact naturally — all powered by voice, vision, and intelligent context.
+**Liyveo** is an AI-powered Cloud Intelligence Assistant designed to simplify, visualize, and optimize your entire AWS infrastructure.
+It helps you **see, understand, and act** on your cloud environment through an interactive dashboard — or simply by **talking to your AI copilot**.
 
-Think of it as the AI layer that transforms any brand or store into a smart conversational experience.
+Think of it as the **AI layer that transforms cloud management into a conversation** — giving DevOps, FinOps, and Security teams one intelligent pane of glass for their entire cloud.
 
 ##  What Liyveo Does
 
-Liyveo is an AI-powered conversational shopping assistant and retail insights engine that helps users discover, match and buy products using vision, voice and embeddings. Below are the core features.
+Liyveo combines **real-time cloud analytics, security insights**, and **cost optimization** with **AI-powered conversational intelligence** — so you can ask questions, see your infrastructure visually, and receive automated recommendations.
 
-| Feature                                   | Description                                                                | Example                                                  |
-| ----------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------- |
-|     **Conversational Shopping Assistant** | Users can chat or talk to discover products or ask questions.              | “Find me sneakers under ₹5000 that match this outfit.”   |
-|    **AI Stylist (Vision + LLM)**          | Detects outfit type, color, and style from uploaded photos or live camera. | Upload a photo → get personalized product matches.       |
-|    **Voice Agent**                        | Full voice-based interface for hands-free interactions.                    | “Hey Liyveo, show me something like these Adidas shoes.” |
-|    **AI Product Recommender**             | Uses embeddings to find visually or semantically similar products.         | Find look-alikes or complementary items.                 |
-|    **Retail Insights Engine**             | Analyzes product trends, user interactions, and demand patterns.           | Forecasts next bestsellers by color, style, or region.   |
-|    **Omni-Channel Integration**           | Deploy on website, WhatsApp, mobile apps, or kiosks.                       | Same experience across chat and store interfaces.        |
+| Feature                                   | Description                                                                    | Example                                                  |
+| ----------------------------------------- | --------------------------------------------------------------------------     | -------------------------------------------------------- |
+|     **AWS Resource Visualizer**           | See all running instances, EKS clusters, and workloads across regions.         | Show me all active EC2s and pods running in production.  |
+|    **Cost Explorer Dashboard**            | Real-time AWS cost and usage breakdown by service, tag, and project.           | What was my EKS spend last week?                         |
+|    **IAM Analyzer**                       | Detects over-permissive IAM roles and risky privilege assignments.             | List all admin roles without MFA.                        |
+|    **Security Advisor**                   | Centralized security recommendations for WAF, Trivy, SonarQube, and BlackDuck. | Check if WAF is enabled for staging.                     |
+|    **EKS Inspector**                      | Visualizes EKS clusters, nodes, deployments, and pods with health status.      | Show my Kubernetes cluster utilization.                  |
+|    **AI + Voice Assistant**               | Conversational bot that understands and speaks your cloud.                     | Hey Liyveo, optimize my AWS cost and check IAM risks.    |
+|    **Automated Reports**                  | Scheduled reports for billing, compliance, and resource drift.                 | Daily cost summary or weekly IAM risk scan.              |
 
 ---
 
 ##  How Liyveo Works
 
-The Liyveo system integrates multiple AI layers — from ingestion to conversational intelligence — to deliver real-time, personalized shopping experiences.
+Liyveo unifies data from AWS APIs, Kubernetes, and Security tools, processes them via AI agents, and delivers both visual dashboards and natural language responses.
 
 ```text
-[Website Backend / eCommerce API]
+
+[AWS Account(s)]
         │
         ▼
- [Liyveo Ingest Service]
-     - Fetches products
-     - Generates embeddings
-     - Stores in DB + Vector DB
+ [Liyveo Data Collector]
+     - Fetches Cost Explorer, IAM, EKS, and Security data
+     - Normalizes and stores in Postgres
         │
         ▼
- [Liyveo AI Core Services]
-     ├── Conversation (Text + Voice)
-     ├── Vision (Image Detection)
-     ├── Recommendation (Vector Search)
-     ├── TTS (Voice Output)
+ [Liyveo AI Core]
+     ├── Conversational Agent (GPT-5)
+     ├── Voice Interface (Whisper + TTS)
+     ├── Optimization Engine (FinOps)
+     ├── Security Advisor (SecOps)
         │
         ▼
- [User Interface]
-     - Web Chat
-     - Mobile
-     - WhatsApp
-     - Kiosk / AR Display
+ [Web Dashboard + Voice Console]
+     - Real-time visualizations
+     - AI chat assistant
+     - Multi-account insights
+
+
 ```
-##  AI Service Architecture
+##  AAI Service Architecture
 
 ### Liyveo Ingest Service
 

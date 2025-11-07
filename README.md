@@ -488,14 +488,7 @@ Liyveo is designed to be **fully deployable on AWS**, with a modular architectur
 
 ---
 
-###  Optional: Mermaid Diagram (renders directly in GitHub / Docs)
 
-```mermaid
-flowchart TD
-    A[User / Dashboard / Voice] --> B[Liyveo AI Core (GPT-5)]
-    B --> C[LangChain Tool → AWS SDK]
-    C --> D[(PostgreSQL + Redis Storage)]
-    D --> E[Visualization / Report / Voice Output]
 
 ## Vision Statement
 
